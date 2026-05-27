@@ -264,7 +264,6 @@ const sheepMessages = [
   "mää! كل عام وأنتِ ضحكتنا! 🌟"
 ];
 
-// ✅ الرسالة المطلوبة بالضبط
 const letterText = "يا دلال، عيد أضحى مبارك. أبيك تعرفين انك أحلى شيء في حياتي، وكل عيد وأنتِ معي هو العيد الحقيقي. أسأل الله يجمعنا قريب ويخليني جنبك دائماً";
 
 const $ = id => document.getElementById(id);
@@ -308,6 +307,7 @@ function initMainExperience(){
   }, 800);
 }
 
+// ✅ تم إبطاء السرعة هنا
 function startLetter(){
   if(letterDone) return;
   letterDone = true;
@@ -320,9 +320,9 @@ function startLetter(){
     if(i < letterText.length){
       el.insertBefore(document.createTextNode(letterText.charAt(i)), cursor);
       i++;
-      setTimeout(type, 35);
+      setTimeout(type, 65); // ⬅️ كانت 35، صارت 65 (أبطأ بـ 85%)
     } else {
-      setTimeout(() => cursor.remove(), 1500);
+      setTimeout(() => cursor.remove(), 2500); // ⬅️ كان 1500، صار 2500
     }
   }
   type();
