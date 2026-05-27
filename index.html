@@ -1,1276 +1,1004 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>For Dalal ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --burgundy: #8B1538;
-            --rose: #E8B4B8;
-            --cream: #FFF8F0;
-            --gold: #D4AF37;
-            --deep-red: #4A0E1E;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: 'Cormorant Garamond', serif;
-            background: var(--cream);
-            color: var(--deep-red);
-            overflow-x: hidden;
-            line-height: 1.6;
-            min-height: 100vh;
-            touch-action: pan-y;
-        }
-
-        /* Animated background hearts */
-        .hearts-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .heart {
-            position: absolute;
-            font-size: 20px;
-            color: var(--rose);
-            opacity: 0.2;
-            animation: float 15s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.2;
-            }
-            90% {
-                opacity: 0.2;
-            }
-            100% {
-                transform: translateY(-100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Main container */
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        /* Screen system */
-        .screen {
-            display: none;
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        .screen.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Screen 1: Valentine Question */
-        .question-screen {
-            text-align: center;
-            padding: 60px 20px;
-            min-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .main-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 56px;
-            color: var(--burgundy);
-            margin-bottom: 30px;
-            font-style: italic;
-            animation: heartbeat 2s infinite;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% {
-                transform: scale(1);
-            }
-            10% {
-                transform: scale(1.05);
-            }
-            20% {
-                transform: scale(1);
-            }
-        }
-
-        .question-text {
-            font-size: 32px;
-            color: var(--deep-red);
-            margin-bottom: 60px;
-            font-weight: 400;
-        }
-
-        .buttons-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            height: 200px;
-        }
-
-        .valentine-btn {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            padding: 20px 50px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(139, 21, 56, 0.3);
-            font-weight: 600;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .yes-btn {
-            background: var(--burgundy);
-            color: white;
-            top: 0;
-            z-index: 10;
-        }
-
-        .yes-btn:hover {
-            transform: translateX(-50%) scale(1.1);
-            box-shadow: 0 15px 40px rgba(139, 21, 56, 0.4);
-        }
-
-        .no-btn {
-            background: white;
-            color: var(--burgundy);
-            border: 2px solid var(--burgundy);
-            bottom: 0;
-            transition: all 0.2s ease;
-        }
-
-        /* Riddle Screen */
-        .riddle-screen {
-            padding: 40px 20px;
-        }
-
-        .riddle-card {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(139, 21, 56, 0.15);
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .riddle-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 36px;
-            color: var(--burgundy);
-            margin-bottom: 25px;
-            font-style: italic;
-        }
-
-        .riddle-text {
-            font-size: 22px;
-            color: var(--deep-red);
-            margin-bottom: 30px;
-            line-height: 1.8;
-        }
-
-        .riddle-input {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 20px;
-            padding: 15px 25px;
-            border: 2px solid var(--rose);
-            border-radius: 30px;
-            width: 100%;
-            max-width: 300px;
-            text-align: center;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .riddle-input:focus {
-            outline: none;
-            border-color: var(--burgundy);
-            box-shadow: 0 0 0 3px rgba(139, 21, 56, 0.1);
-        }
-
-        .submit-btn {
-            font-family: 'Playfair Display', serif;
-            font-size: 22px;
-            padding: 15px 40px;
-            background: var(--burgundy);
-            color: white;
-            border: none;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(139, 21, 56, 0.3);
-        }
-
-        .submit-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(139, 21, 56, 0.4);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .error-message {
-            color: var(--burgundy);
-            font-size: 18px;
-            margin-top: 15px;
-            min-height: 25px;
-        }
-
-        .hint-btn {
-            font-size: 18px;
-            color: var(--burgundy);
-            background: transparent;
-            border: 1px solid var(--burgundy);
-            padding: 10px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .hint-btn:hover {
-            background: var(--burgundy);
-            color: white;
-        }
-
-        .hint-text {
-            font-size: 18px;
-            color: var(--rose);
-            margin-top: 15px;
-            font-style: italic;
-        }
-
-        /* Progress indicator */
-        .progress {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 18px;
-            color: var(--burgundy);
-        }
-
-        .progress-dots {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--rose);
-            transition: all 0.3s ease;
-        }
-
-        .dot.active {
-            background: var(--burgundy);
-            transform: scale(1.3);
-        }
-
-        /* Love letter screen */
-        .love-letter {
-            background: white;
-            padding: 50px 40px;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(139, 21, 56, 0.15);
-            margin-bottom: 40px;
-            position: relative;
-        }
-
-        .love-letter::before {
-            content: '❤️';
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 50px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: translateX(-50%) scale(1);
-            }
-            50% {
-                transform: translateX(-50%) scale(1.2);
-            }
-        }
-
-        .love-letter p {
-            font-size: 20px;
-            line-height: 1.8;
-            margin-bottom: 20px;
-            color: var(--deep-red);
-        }
-
-        .signature {
-            text-align: right;
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            color: var(--burgundy);
-            margin-top: 30px;
-            font-style: italic;
-        }
-
-        /* Reasons section */
-        .reasons-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .reason-card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(139, 21, 56, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-top: 3px solid var(--rose);
-            text-align: center;
-        }
-
-        .reason-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(139, 21, 56, 0.2);
-        }
-
-        .reason-number {
-            font-family: 'Playfair Display', serif;
-            font-size: 42px;
-            color: var(--rose);
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .reason-text {
-            font-size: 19px;
-            color: var(--deep-red);
-            line-height: 1.6;
-        }
-
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 42px;
-            text-align: center;
-            color: var(--burgundy);
-            margin-bottom: 40px;
-            font-style: italic;
-        }
-
-        /* Prize reveal */
-        .prize-reveal {
-            background: linear-gradient(135deg, var(--burgundy), var(--deep-red));
-            padding: 50px 30px;
-            border-radius: 15px;
-            text-align: center;
-            color: white;
-            margin-bottom: 40px;
-            box-shadow: 0 20px 60px rgba(139, 21, 56, 0.3);
-            animation: slideIn 0.8s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .prize-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-            animation: bounce 1s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-
-        .prize-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 32px;
-            margin-bottom: 15px;
-            font-style: italic;
-        }
-
-        .prize-description {
-            font-size: 20px;
-            line-height: 1.6;
-        }
-
-        /* Continue button */
-        .continue-btn {
-            font-family: 'Playfair Display', serif;
-            font-size: 22px;
-            padding: 18px 45px;
-            background: var(--burgundy);
-            color: white;
-            border: none;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(139, 21, 56, 0.3);
-            display: block;
-            margin: 30px auto;
-        }
-
-        .continue-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(139, 21, 56, 0.4);
-        }
-
-        /* Success animation */
-        .success-animation {
-            text-align: center;
-            margin: 30px 0;
-        }
-
-        .checkmark {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: block;
-            stroke-width: 3;
-            stroke: white;
-            stroke-miterlimit: 10;
-            margin: 20px auto;
-            box-shadow: inset 0px 0px 0px var(--burgundy);
-            animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
-        }
-
-        .checkmark-circle {
-            stroke-dasharray: 166;
-            stroke-dashoffset: 166;
-            stroke-width: 3;
-            stroke-miterlimit: 10;
-            stroke: var(--burgundy);
-            fill: none;
-            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-        }
-
-        .checkmark-check {
-            transform-origin: 50% 50%;
-            stroke-dasharray: 48;
-            stroke-dashoffset: 48;
-            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
-        }
-
-        @keyframes stroke {
-            100% {
-                stroke-dashoffset: 0;
-            }
-        }
-
-        @keyframes fill {
-            100% {
-                box-shadow: inset 0px 0px 0px 40px var(--burgundy);
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 42px;
-            }
-
-            .question-text {
-                font-size: 26px;
-            }
-
-            .valentine-btn {
-                font-size: 20px;
-                padding: 18px 40px;
-            }
-
-            .riddle-title {
-                font-size: 28px;
-            }
-
-            .riddle-text {
-                font-size: 19px;
-            }
-
-            .section-title {
-                font-size: 32px;
-            }
-
-            .love-letter {
-                padding: 40px 25px;
-            }
-
-            .love-letter p {
-                font-size: 18px;
-            }
-
-            .reasons-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ILY Animation */
-        .love-animation-container {
-            position: relative;
-            width: 100%;
-            height: 450px;
-            background: linear-gradient(135deg, rgba(139, 21, 56, 0.05), rgba(232, 180, 184, 0.05));
-            border-radius: 15px;
-            overflow: hidden;
-            margin: 40px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-        }
-
-        /* ILY moving in heart shape */
-        .heart-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            max-width: 450px;
-            max-height: 450px;
-        }
-
-        .ily-word {
-            position: absolute;
-            font-family: 'Playfair Display', serif;
-            font-size: 38px;
-            font-weight: 700;
-            font-style: italic;
-            color: var(--burgundy);
-            text-shadow: 0 0 15px rgba(232, 180, 184, 0.9),
-                         0 0 30px rgba(139, 21, 56, 0.5);
-            animation: moveAlongHeart var(--duration) linear infinite;
-            animation-delay: var(--delay);
-            letter-spacing: 3px;
-        }
-
-        @keyframes moveAlongHeart {
-            0% {
-                left: 50%;
-                top: 15%;
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.5);
-            }
-            5% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-            12.5% {
-                left: 70%;
-                top: 10%;
-            }
-            25% {
-                left: 85%;
-                top: 25%;
-            }
-            37.5% {
-                left: 80%;
-                top: 50%;
-            }
-            50% {
-                left: 50%;
-                top: 90%;
-            }
-            62.5% {
-                left: 20%;
-                top: 50%;
-            }
-            75% {
-                left: 15%;
-                top: 25%;
-            }
-            87.5% {
-                left: 30%;
-                top: 10%;
-            }
-            95% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-            100% {
-                left: 50%;
-                top: 15%;
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.5);
-            }
-        }
-
-        /* Cute Teddy Bear */
-        .teddy-container {
-            text-align: center;
-            margin: 60px 0;
-            position: relative;
-        }
-
-        .teddy-bear {
-            font-size: 150px;
-            display: inline-block;
-            animation: teddyFloat 3s ease-in-out infinite;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .teddy-bear:hover {
-            transform: scale(1.2) rotate(10deg);
-        }
-
-        @keyframes teddyFloat {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-
-        .teddy-message {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            color: var(--burgundy);
-            margin-top: 20px;
-            font-style: italic;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .teddy-message.show {
-            opacity: 1;
-        }
-
-        /* Floating hearts from teddy */
-        .teddy-heart {
-            position: absolute;
-            font-size: 30px;
-            animation: floatUpHeart 3s ease-out forwards;
-            pointer-events: none;
-        }
-
-        @keyframes floatUpHeart {
-            0% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-200px) scale(0.5);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .love-animation-container {
-                height: 350px;
-                padding: 20px;
-            }
-
-            .heart-container {
-                max-width: 300px;
-                max-height: 300px;
-            }
-
-            .ily-word {
-                font-size: 28px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>عيد أضحى مبارك يا دلال 🐑</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@400;700;900&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{overflow-x:hidden;scroll-behavior:smooth}
+body{
+  font-family:'Cairo','Tajawal',sans-serif;
+  background:#1a0f0a;color:#f4e4c1;min-height:100vh;
+  direction:rtl;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(244,208,63,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(196,69,105,0.08) 0%, transparent 50%),
+    linear-gradient(135deg,#1a0f0a 0%,#2a1a14 50%,#1a0f0a 100%);
+}
+
+/* نجوم متلألئة في الخلفية */
+.stars-bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.star-dot{
+  position:absolute;width:2px;height:2px;background:#fff8c0;border-radius:50%;
+  box-shadow:0 0 6px rgba(244,208,63,0.6);
+  animation:twinkle 3s ease-in-out infinite;
+}
+@keyframes twinkle{0%,100%{opacity:0.3;transform:scale(0.8)}50%{opacity:1;transform:scale(1.3)}}
+
+/* ===== شاشة الدخول ===== */
+#welcome-screen{
+  position:fixed;inset:0;z-index:100;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  background:radial-gradient(ellipse at center,#2a1a14 0%,#0f0806 100%);
+  transition:opacity 1s ease,visibility 1s ease;
+}
+#welcome-screen.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.welcome-sheep{
+  width:180px;height:180px;margin-bottom:30px;
+  animation:sheepBounce 2s ease-in-out infinite;
+  filter:drop-shadow(0 10px 30px rgba(0,0,0,0.5));
+}
+@keyframes sheepBounce{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-15px) rotate(3deg)}}
+.welcome-title{
+  font-family:'Aref Ruqaa',serif;font-size:48px;color:#f4d03f;
+  text-align:center;margin-bottom:15px;font-weight:700;
+  text-shadow:0 0 30px rgba(244,208,63,0.5);
+}
+.welcome-subtitle{
+  font-size:20px;color:#e8c494;
+  text-align:center;margin-bottom:40px;max-width:80%;line-height:1.8;
+}
+.welcome-btn{
+  padding:18px 50px;font-size:18px;font-family:'Cairo',sans-serif;
+  color:#1a0f0a;background:linear-gradient(135deg,#f4d03f 0%,#d4af37 100%);
+  border:none;border-radius:50px;cursor:pointer;font-weight:900;
+  box-shadow:0 8px 30px rgba(212,175,55,0.5),0 0 60px rgba(244,208,63,0.3);
+  transition:all .3s;
+}
+.welcome-btn:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(212,175,55,0.7)}
+.welcome-btn:active{transform:scale(0.96)}
+
+/* ===== Hero ===== */
+.hero{
+  position:relative;z-index:2;padding:80px 20px 60px;text-align:center;
+  opacity:0;transform:translateY(30px);transition:all 1.2s ease;
+}
+.hero.visible{opacity:1;transform:translateY(0)}
+.hero-scene{
+  position:relative;width:320px;height:320px;margin:0 auto 30px;
+}
+.hero-sun{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:200px;height:200px;
+  filter:drop-shadow(0 0 50px rgba(244,208,63,0.6));
+  animation:sunGlow 4s ease-in-out infinite;
+}
+@keyframes sunGlow{0%,100%{filter:drop-shadow(0 0 50px rgba(244,208,63,0.6))}50%{filter:drop-shadow(0 0 80px rgba(244,208,63,0.9))}}
+.hero-sheep{
+  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:160px;height:160px;
+  filter:drop-shadow(0 10px 20px rgba(0,0,0,0.4));
+  animation:sheepWalk 3s ease-in-out infinite;
+}
+@keyframes sheepWalk{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
+.hero-title{
+  font-family:'Aref Ruqaa',serif;font-size:52px;color:#f4d03f;
+  margin-bottom:15px;font-weight:700;
+  text-shadow:0 0 30px rgba(244,208,63,0.5);
+}
+.hero-subtitle{
+  font-size:22px;color:#e8c494;line-height:1.9;max-width:600px;margin:0 auto;
+}
+
+/* ===== الأقسام ===== */
+.section{
+  position:relative;z-index:2;
+  max-width:800px;margin:80px auto;padding:0 20px;
+  opacity:0;transform:translateY(40px);transition:all 1s ease;
+}
+.section.visible{opacity:1;transform:translateY(0)}
+.section-title{
+  font-family:'Aref Ruqaa',serif;font-size:42px;color:#f4d03f;
+  text-align:center;margin-bottom:10px;font-weight:700;
+  text-shadow:0 0 20px rgba(244,208,63,0.4);
+}
+.section-subtitle{
+  font-size:17px;color:#e8c494;
+  text-align:center;margin-bottom:35px;opacity:0.85;
+}
+.section-divider{
+  display:flex;align-items:center;justify-content:center;
+  margin:50px auto;max-width:300px;
+}
+.section-divider::before,.section-divider::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(244,208,63,0.5),transparent);
+}
+.section-divider-emoji{margin:0 15px;font-size:24px}
+
+/* ===== صناديق العيدية ===== */
+.eidiya-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:15px;
+  max-width:500px;margin:0 auto;
+}
+.eidiya-box{
+  aspect-ratio:1;cursor:pointer;
+  position:relative;transition:all .4s cubic-bezier(.34,1.56,.64,1);
+  perspective:800px;
+}
+.eidiya-box:hover{transform:translateY(-5px)}
+.eidiya-box.opened{pointer-events:none}
+.eidiya-box.opened .eidiya-inner{transform:rotateY(180deg)}
+.eidiya-inner{
+  position:relative;width:100%;height:100%;
+  transform-style:preserve-3d;transition:transform .8s cubic-bezier(.4,0,.2,1);
+}
+.eidiya-front,.eidiya-back{
+  position:absolute;inset:0;
+  backface-visibility:hidden;
+  border-radius:15px;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:10px;text-align:center;
+}
+.eidiya-front{
+  background:linear-gradient(135deg,#c44569 0%,#8b2c4a 100%);
+  border:2px solid rgba(244,208,63,0.4);
+  box-shadow:0 8px 25px rgba(0,0,0,0.4),inset 0 0 20px rgba(244,208,63,0.1);
+}
+.eidiya-front::before{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(45deg,transparent 48%,rgba(244,208,63,0.4) 49%,rgba(244,208,63,0.4) 51%,transparent 52%),
+    linear-gradient(-45deg,transparent 48%,rgba(244,208,63,0.4) 49%,rgba(244,208,63,0.4) 51%,transparent 52%);
+  border-radius:15px;
+}
+.eidiya-front-emoji{font-size:48px;position:relative;z-index:2}
+.eidiya-front-text{
+  font-size:13px;color:#f4d03f;
+  margin-top:8px;position:relative;z-index:2;font-weight:900;
+}
+.eidiya-back{
+  background:linear-gradient(135deg,#f4e4c1 0%,#e8c494 100%);
+  color:#5a2a3a;transform:rotateY(180deg);
+  box-shadow:0 8px 25px rgba(0,0,0,0.4);
+}
+.eidiya-back-emoji{font-size:36px;margin-bottom:5px}
+.eidiya-back-text{font-size:13px;line-height:1.4;font-weight:700}
+.eidiya-counter{
+  text-align:center;margin-top:25px;
+  font-size:20px;color:#f4d03f;font-weight:900;
+}
+
+/* ===== لوحة الرسائل ===== */
+.letter-card{
+  background:linear-gradient(135deg,rgba(244,228,193,0.08),rgba(196,69,105,0.08));
+  border:1px solid rgba(244,208,63,0.3);
+  border-radius:20px;padding:40px 30px;text-align:center;
+  backdrop-filter:blur(10px);
+  box-shadow:0 15px 40px rgba(0,0,0,0.3);
+  position:relative;overflow:hidden;
+}
+.letter-text{
+  font-family:'Aref Ruqaa',serif;
+  font-size:32px;color:#f4d03f;line-height:2;font-weight:700;
+  text-shadow:0 0 20px rgba(244,208,63,0.4);
+  min-height:150px;
+}
+.letter-cursor{
+  display:inline-block;width:3px;height:38px;background:#f4d03f;
+  margin-right:5px;vertical-align:middle;
+  animation:blink-cursor .75s step-end infinite;
+}
+@keyframes blink-cursor{from,to{opacity:0}50%{opacity:1}}
+
+/* ===== الأمنيات ===== */
+.wish-btn-container{display:flex;justify-content:center;margin:20px 0}
+.wish-btn{
+  padding:18px 45px;font-size:18px;font-family:'Cairo',sans-serif;
+  color:#1a0f0a;background:linear-gradient(135deg,#f4d03f 0%,#d4af37 100%);
+  border:none;border-radius:50px;cursor:pointer;font-weight:900;
+  box-shadow:0 8px 25px rgba(212,175,55,0.4);
+  transition:all .2s;
+}
+.wish-btn:active{transform:scale(0.95)}
+.wish-text{
+  margin-top:25px;min-height:100px;
+  font-family:'Aref Ruqaa',serif;font-size:28px;color:#f4d03f;
+  text-align:center;line-height:1.9;font-weight:700;
+  text-shadow:0 0 15px rgba(244,208,63,0.3);
+  padding:0 20px;
+  opacity:0;transition:opacity .5s;
+}
+.wish-text.show{opacity:1}
+
+/* ===== الخروف الكيوت التفاعلي ===== */
+.sheep-stage{
+  max-width:400px;margin:0 auto;text-align:center;
+}
+.sheep-interactive{
+  width:220px;height:220px;margin:0 auto;cursor:pointer;
+  filter:drop-shadow(0 10px 30px rgba(0,0,0,0.5));
+  transition:transform .3s;
+  animation:sheepWalk 3s ease-in-out infinite;
+}
+.sheep-interactive:hover{transform:scale(1.05)}
+.sheep-interactive:active{transform:scale(0.95)}
+.sheep-message{
+  margin-top:25px;min-height:60px;
+  font-size:22px;color:#e8c494;
+  text-align:center;line-height:1.7;font-weight:700;
+  opacity:0;transition:opacity .5s;
+}
+.sheep-message.show{opacity:1}
+.sheep-counter{
+  margin-top:15px;font-size:18px;color:#f4d03f;font-weight:700;
+}
+
+/* ===== الرسالة الختامية ===== */
+.final-message{
+  max-width:700px;margin:80px auto;padding:50px 30px;text-align:center;
+  background:linear-gradient(135deg,rgba(196,69,105,0.15),rgba(244,208,63,0.08));
+  border:2px solid rgba(244,208,63,0.3);
+  border-radius:25px;position:relative;overflow:hidden;
+  box-shadow:0 20px 50px rgba(0,0,0,0.4);
+}
+.final-message::before{
+  content:'💝';position:absolute;top:-30px;left:50%;transform:translateX(-50%);
+  font-size:50px;background:#1a0f0a;padding:0 20px;
+}
+.final-title{
+  font-family:'Aref Ruqaa',serif;font-size:44px;color:#f4d03f;
+  margin:30px 0 25px;font-weight:700;
+  text-shadow:0 0 30px rgba(244,208,63,0.5);
+}
+.final-text{
+  font-size:20px;color:#f4e4c1;
+  line-height:2.2;margin-bottom:25px;font-weight:600;
+}
+.final-signature{
+  font-family:'Aref Ruqaa',serif;font-size:28px;color:#f4d03f;
+  font-weight:700;margin-top:30px;
+}
+
+/* ===== Footer ===== */
+.footer{
+  text-align:center;padding:40px 20px;
+  font-size:17px;color:rgba(244,208,63,0.6);
+  border-top:1px solid rgba(244,208,63,0.15);margin-top:40px;
+}
+
+/* ===== الألعاب النارية ===== */
+.fireworks-canvas{position:fixed;inset:0;z-index:999;pointer-events:none}
+
+/* ===== رسالة عائمة ===== */
+.floating-msg{
+  position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);
+  background:linear-gradient(135deg,#c44569,#8b2c4a);
+  color:#f4d03f;border:2px solid rgba(244,208,63,0.5);
+  border-radius:50px;padding:15px 30px;font-size:18px;font-weight:900;
+  z-index:1000;pointer-events:none;max-width:90%;
+  box-shadow:0 10px 40px rgba(196,69,105,0.5);
+  animation:floatMsg 3s ease forwards;
+}
+@keyframes floatMsg{0%{opacity:0;transform:translate(-50%,-50%) scale(.8)}20%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}40%{transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-80%) scale(1)}}
+
+/* ===== كونفيتي ===== */
+.confetti{position:fixed;width:10px;height:14px;pointer-events:none;z-index:998;animation:confettiFall linear forwards}
+@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+/* ===== قلب يطير ===== */
+.flying-heart{
+  position:fixed;font-size:30px;pointer-events:none;z-index:997;
+  animation:heartFly 2s ease-out forwards;
+}
+@keyframes heartFly{
+  0%{opacity:1;transform:translateY(0) scale(0.5)}
+  50%{opacity:1;transform:translateY(-100px) scale(1.2)}
+  100%{opacity:0;transform:translateY(-200px) scale(0.8)}
+}
+
+/* ===== جوال ===== */
+@media(max-width:600px){
+  .welcome-title{font-size:36px}
+  .welcome-subtitle{font-size:17px}
+  .hero-title{font-size:38px}
+  .hero-subtitle{font-size:18px}
+  .hero-scene{width:260px;height:260px}
+  .hero-sun{width:160px;height:160px}
+  .hero-sheep{width:130px;height:130px}
+  .section-title{font-size:32px}
+  .eidiya-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .eidiya-front-emoji{font-size:36px}
+  .eidiya-front-text{font-size:11px}
+  .eidiya-back-emoji{font-size:28px}
+  .eidiya-back-text{font-size:11px}
+  .letter-text{font-size:24px}
+  .wish-text{font-size:22px}
+  .sheep-interactive{width:170px;height:170px}
+  .final-title{font-size:32px}
+  .final-text{font-size:17px}
+  .final-signature{font-size:22px}
+}
+</style>
 </head>
 <body>
-    <!-- Animated hearts background -->
-    <div class="hearts-bg" id="hearts-bg"></div>
 
-    <div class="container">
-        <!-- Screen 1: Valentine Question -->
-        <div class="screen active" id="screen1">
-            <div class="question-screen">
-                <h1 class="main-title">Dalal ❤️</h1>
-                <p class="question-text">Will you be my Valentine?</p>
-                <div class="buttons-container">
-                    <button class="valentine-btn yes-btn" id="yesBtn">Yes! 💕</button>
-                    <button class="valentine-btn no-btn" id="noBtn">No</button>
-                </div>
-            </div>
-        </div>
+<!-- نجوم في الخلفية -->
+<div class="stars-bg" id="stars-bg"></div>
 
-        <!-- Screen 2: Riddle 1 -->
-        <div class="screen" id="screen2">
-            <div class="riddle-screen">
-                <div class="progress">
-                    Challenge 1 of 3
-                    <div class="progress-dots">
-                        <div class="dot active"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                    </div>
-                </div>
-                
-                <div class="riddle-card">
-                    <h2 class="riddle-title">💝 First Riddle</h2>
-                    <p class="riddle-text">
-                        If I send you 3 messages in the morning,<br>
-                        5 messages in the afternoon,<br>
-                        and double that number in the evening,<br><br>
-                        <strong>How many messages total? 📱</strong>
-                    </p>
-                    <input type="text" class="riddle-input" id="riddle1Input" placeholder="Enter the number...">
-                    <br>
-                    <button class="submit-btn" id="riddle1Submit">Submit Answer</button>
-                    <div class="error-message" id="riddle1Error"></div>
-                    <button class="hint-btn" id="hint1Btn">Need a hint? 💡</button>
-                    <div class="hint-text" id="hint1Text" style="display: none;">
-                        Morning + Afternoon + (Afternoon × 2) = ? 🤔
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- شاشة الدخول -->
+<div id="welcome-screen">
+  <svg class="welcome-sheep" viewBox="0 0 200 200">
+    <!-- جسم الخروف -->
+    <g>
+      <!-- الصوف (دوائر متداخلة) -->
+      <circle cx="100" cy="100" r="55" fill="#fff8f0"/>
+      <circle cx="75" cy="80" r="22" fill="#fff8f0"/>
+      <circle cx="125" cy="80" r="22" fill="#fff8f0"/>
+      <circle cx="65" cy="105" r="20" fill="#fff8f0"/>
+      <circle cx="135" cy="105" r="20" fill="#fff8f0"/>
+      <circle cx="80" cy="125" r="18" fill="#fff8f0"/>
+      <circle cx="120" cy="125" r="18" fill="#fff8f0"/>
+      <circle cx="100" cy="75" r="20" fill="#fff8f0"/>
+      <circle cx="100" cy="130" r="20" fill="#fff8f0"/>
+      <!-- ظل الصوف -->
+      <circle cx="75" cy="85" r="18" fill="#f4e4c1" opacity="0.4"/>
+      <circle cx="125" cy="115" r="18" fill="#f4e4c1" opacity="0.4"/>
+      <!-- الوجه -->
+      <ellipse cx="100" cy="100" rx="28" ry="32" fill="#3a2a1f"/>
+      <!-- الأذنين -->
+      <ellipse cx="70" cy="85" rx="8" ry="14" fill="#3a2a1f" transform="rotate(-30 70 85)"/>
+      <ellipse cx="130" cy="85" rx="8" ry="14" fill="#3a2a1f" transform="rotate(30 130 85)"/>
+      <!-- العيون -->
+      <circle cx="90" cy="95" r="4" fill="#fff"/>
+      <circle cx="110" cy="95" r="4" fill="#fff"/>
+      <circle cx="90" cy="96" r="2.5" fill="#000"/>
+      <circle cx="110" cy="96" r="2.5" fill="#000"/>
+      <circle cx="91" cy="94" r="1" fill="#fff"/>
+      <circle cx="111" cy="94" r="1" fill="#fff"/>
+      <!-- الأنف -->
+      <ellipse cx="100" cy="110" rx="4" ry="3" fill="#5a3a2a"/>
+      <!-- الخدود -->
+      <circle cx="82" cy="105" r="3" fill="#ff9ec7" opacity="0.7"/>
+      <circle cx="118" cy="105" r="3" fill="#ff9ec7" opacity="0.7"/>
+      <!-- الفم (ابتسامة) -->
+      <path d="M 94 115 Q 100 120 106 115" stroke="#5a3a2a" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- الأرجل -->
+      <rect x="80" y="145" width="8" height="20" rx="4" fill="#3a2a1f"/>
+      <rect x="112" y="145" width="8" height="20" rx="4" fill="#3a2a1f"/>
+    </g>
+    <!-- ربطة العيد -->
+    <circle cx="100" cy="70" r="8" fill="#c44569"/>
+    <path d="M 85 68 Q 80 62 82 70 Q 84 78 92 72 Z" fill="#f4d03f"/>
+    <path d="M 115 68 Q 120 62 118 70 Q 116 78 108 72 Z" fill="#f4d03f"/>
+  </svg>
+  <h1 class="welcome-title">عيد أضحى مبارك 🐑</h1>
+  <p class="welcome-subtitle">
+    رسالة خاصة لكِ يا دلال<br>
+    في هذا العيد المبارك
+  </p>
+  <button class="welcome-btn" id="welcome-btn">ابدئي 💝</button>
+</div>
 
-        <!-- Screen 3: Riddle 2 (Birthday) -->
-        <div class="screen" id="screen3">
-            <div class="riddle-screen">
-                <div class="progress">
-                    Challenge 2 of 3
-                    <div class="progress-dots">
-                        <div class="dot active"></div>
-                        <div class="dot active"></div>
-                        <div class="dot"></div>
-                    </div>
-                </div>
-                
-                <div class="riddle-card">
-                    <h2 class="riddle-title">📅 Second Riddle</h2>
-                    <p class="riddle-text">
-                        If we've been talking for 4 weeks,<br>
-                        and I think about you every single day,<br><br>
-                        <strong>How many days have I thought about you? 💭</strong><br>
-                        <small style="color: var(--rose);">(1 week = 7 days)</small>
-                    </p>
-                    <input type="text" class="riddle-input" id="riddle2Input" placeholder="Enter the number...">
-                    <br>
-                    <button class="submit-btn" id="riddle2Submit">Submit Answer</button>
-                    <div class="error-message" id="riddle2Error"></div>
-                    <button class="hint-btn" id="hint2Btn">Need a hint? 💡</button>
-                    <div class="hint-text" id="hint2Text" style="display: none;">
-                        4 weeks × 7 days = ? 🤔
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- كانفاس الألعاب النارية -->
+<canvas class="fireworks-canvas" id="fireworks-canvas"></canvas>
 
-        <!-- Screen 3.5: Riddle 3 (Love calculation) -->
-        <div class="screen" id="screen3-5">
-            <div class="riddle-screen">
-                <div class="progress">
-                    Challenge 3 of 3
-                    <div class="progress-dots">
-                        <div class="dot active"></div>
-                        <div class="dot active"></div>
-                        <div class="dot active"></div>
-                    </div>
-                </div>
-                
-                <div class="riddle-card">
-                    <h2 class="riddle-title">💕 Final Riddle</h2>
-                    <p class="riddle-text">
-                        If 1 ❤️ = 3 points,<br>
-                        and 1 💕 = 5 points,<br>
-                        and 1 🌹 = 2 points,<br><br>
-                        What's the total of:<br>
-                        2❤️ + 3💕 + 1🌹 = ?<br><br>
-                        <strong>Calculate the points! 💝</strong>
-                    </p>
-                    <input type="text" class="riddle-input" id="riddle3Input" placeholder="Enter the number...">
-                    <br>
-                    <button class="submit-btn" id="riddle3Submit">Submit Answer</button>
-                    <div class="error-message" id="riddle3Error"></div>
-                    <button class="hint-btn" id="hint3Btn">Need a hint? 💡</button>
-                    <div class="hint-text" id="hint3Text" style="display: none;">
-                        (2×3) + (3×5) + (1×2) = ? 🤔
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- المحتوى الرئيسي -->
+<div id="main-content" style="display:none">
 
-        <!-- Screen 4: Prize Reveal -->
-        <div class="screen" id="screen4">
-            <div class="riddle-screen">
-                <div class="success-animation">
-                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-                        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-                    </svg>
-                </div>
-
-                <div class="prize-reveal">
-                    <div class="prize-icon">🎁</div>
-                    <div class="prize-text">You Did It! 🎉</div>
-                    <div class="prize-description">
-                        Your prize is waiting below...<br>
-                        A special message from my heart ❤️
-                    </div>
-                </div>
-
-                <button class="continue-btn" id="showLetterBtn">Read Your Love Letter 💌</button>
-            </div>
-        </div>
-
-        <!-- Screen 5: Final Love Letter -->
-        <div class="screen" id="screen5">
-            <h2 class="section-title">To My Beloved Dalal 💕</h2>
-
-            <div class="love-letter">
-                <p>My dearest Dalal, congratulations on solving the riddles! Just like how you figured out the answers, you've also figured out the way to my heart.</p>
-                
-                <p>Even though miles separate us and we've only connected through messages, every text from you feels like a beautiful melody to my heart. Your words brighten my darkest days and give me something to look forward to every single day.</p>
-                
-                <p>You've shown me that distance is just a number when two souls truly connect. Through every text, every emoji, every late-night conversation, you've become the most important person in my life.</p>
-                
-                <p>Thank you for being patient, understanding, and for choosing to be with me despite the distance. I am so grateful for every message we exchange, and I dream of the day when our online world becomes our real world.</p>
-                
-                <p>Happy Valentine's Day, my love. You are my today and all of my tomorrows.</p>
-                
-                <div class="signature">Forever Yours ❤️</div>
-            </div>
-
-            <!-- ILY Animation -->
-            <div class="love-animation-container" id="loveAnimationContainer">
-                <div class="heart-container" id="heartContainer"></div>
-            </div>
-
-            <!-- Cute Teddy Bear -->
-            <div class="teddy-container">
-                <div class="teddy-bear" id="teddyBear" onclick="showTeddyLove()">🧸</div>
-                <div class="teddy-message" id="teddyMessage">Sending you a big bear hug! 🤗</div>
-            </div>
-
-            <h2 class="section-title">Why I Love You 💖</h2>
-
-            <div class="reasons-grid">
-                <div class="reason-card">
-                    <div class="reason-number">01</div>
-                    <div class="reason-text">Your beautiful soul that shines through every message</div>
-                </div>
-                <div class="reason-card">
-                    <div class="reason-number">02</div>
-                    <div class="reason-text">The way you understand me even through text</div>
-                </div>
-                <div class="reason-card">
-                    <div class="reason-number">03</div>
-                    <div class="reason-text">Your patience with our distance</div>
-                </div>
-                <div class="reason-card">
-                    <div class="reason-number">04</div>
-                    <div class="reason-text">How you make every conversation special</div>
-                </div>
-                <div class="reason-card">
-                    <div class="reason-number">05</div>
-                    <div class="reason-text">Your kindness and how you always listen</div>
-                </div>
-                <div class="reason-card">
-                    <div class="reason-number">06</div>
-                    <div class="reason-text">The connection we share despite never meeting</div>
-                </div>
-            </div>
-
-            <div style="text-align: center; padding: 40px 20px; font-size: 22px; color: var(--burgundy);">
-                Made with ❤️ for Dalal<br>
-                <small style="font-size: 18px; color: var(--deep-red);">Happy Valentine's Day 2026 💕</small>
-            </div>
-        </div>
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-scene">
+      <svg class="hero-sun" viewBox="0 0 200 200">
+        <defs>
+          <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fff8c0"/>
+            <stop offset="50%" stop-color="#f4d03f"/>
+            <stop offset="100%" stop-color="#ff8c00"/>
+          </radialGradient>
+          <filter id="sunGlowFilter">
+            <feGaussianBlur stdDeviation="4"/>
+          </filter>
+        </defs>
+        <!-- الأشعة -->
+        <g opacity="0.6">
+          <rect x="95" y="10" width="10" height="30" rx="5" fill="#f4d03f"/>
+          <rect x="95" y="160" width="10" height="30" rx="5" fill="#f4d03f"/>
+          <rect x="10" y="95" width="30" height="10" rx="5" fill="#f4d03f"/>
+          <rect x="160" y="95" width="30" height="10" rx="5" fill="#f4d03f"/>
+          <rect x="35" y="35" width="25" height="8" rx="4" fill="#f4d03f" transform="rotate(45 47 39)"/>
+          <rect x="140" y="35" width="25" height="8" rx="4" fill="#f4d03f" transform="rotate(-45 152 39)"/>
+          <rect x="35" y="157" width="25" height="8" rx="4" fill="#f4d03f" transform="rotate(-45 47 161)"/>
+          <rect x="140" y="157" width="25" height="8" rx="4" fill="#f4d03f" transform="rotate(45 152 161)"/>
+        </g>
+        <!-- الشمس -->
+        <circle cx="100" cy="100" r="55" fill="url(#sunGrad)" filter="url(#sunGlowFilter)"/>
+        <circle cx="100" cy="100" r="50" fill="url(#sunGrad)"/>
+      </svg>
+      <svg class="hero-sheep" viewBox="0 0 200 200">
+        <g>
+          <circle cx="100" cy="100" r="55" fill="#fff8f0"/>
+          <circle cx="75" cy="80" r="22" fill="#fff8f0"/>
+          <circle cx="125" cy="80" r="22" fill="#fff8f0"/>
+          <circle cx="65" cy="105" r="20" fill="#fff8f0"/>
+          <circle cx="135" cy="105" r="20" fill="#fff8f0"/>
+          <circle cx="80" cy="125" r="18" fill="#fff8f0"/>
+          <circle cx="120" cy="125" r="18" fill="#fff8f0"/>
+          <circle cx="100" cy="75" r="20" fill="#fff8f0"/>
+          <circle cx="100" cy="130" r="20" fill="#fff8f0"/>
+          <circle cx="75" cy="85" r="18" fill="#f4e4c1" opacity="0.4"/>
+          <circle cx="125" cy="115" r="18" fill="#f4e4c1" opacity="0.4"/>
+          <ellipse cx="100" cy="100" rx="28" ry="32" fill="#3a2a1f"/>
+          <ellipse cx="70" cy="85" rx="8" ry="14" fill="#3a2a1f" transform="rotate(-30 70 85)"/>
+          <ellipse cx="130" cy="85" rx="8" ry="14" fill="#3a2a1f" transform="rotate(30 130 85)"/>
+          <circle cx="90" cy="95" r="4" fill="#fff"/>
+          <circle cx="110" cy="95" r="4" fill="#fff"/>
+          <circle cx="90" cy="96" r="2.5" fill="#000"/>
+          <circle cx="110" cy="96" r="2.5" fill="#000"/>
+          <circle cx="91" cy="94" r="1" fill="#fff"/>
+          <circle cx="111" cy="94" r="1" fill="#fff"/>
+          <ellipse cx="100" cy="110" rx="4" ry="3" fill="#5a3a2a"/>
+          <circle cx="82" cy="105" r="3" fill="#ff9ec7" opacity="0.7"/>
+          <circle cx="118" cy="105" r="3" fill="#ff9ec7" opacity="0.7"/>
+          <path d="M 94 115 Q 100 120 106 115" stroke="#5a3a2a" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <rect x="80" y="145" width="8" height="20" rx="4" fill="#3a2a1f"/>
+          <rect x="112" y="145" width="8" height="20" rx="4" fill="#3a2a1f"/>
+        </g>
+        <circle cx="100" cy="70" r="8" fill="#c44569"/>
+        <path d="M 85 68 Q 80 62 82 70 Q 84 78 92 72 Z" fill="#f4d03f"/>
+        <path d="M 115 68 Q 120 62 118 70 Q 116 78 108 72 Z" fill="#f4d03f"/>
+      </svg>
     </div>
+    <h1 class="hero-title">عيد أضحى مبارك يا دلال</h1>
+    <p class="hero-subtitle">
+      في هذا العيد المبارك<br>
+      عندي لكِ رسالة من القلب 💝
+    </p>
+  </section>
 
-    <script>
-        // Create floating hearts
-        function createHeart() {
-            const heartsContainer = document.getElementById('hearts-bg');
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + '%';
-            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            heart.style.animationDelay = Math.random() * 5 + 's';
-            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-            heartsContainer.appendChild(heart);
+  <div class="section-divider"><span class="section-divider-emoji">🐑</span></div>
 
-            setTimeout(() => {
-                heart.remove();
-            }, 20000);
-        }
+  <!-- صناديق العيدية -->
+  <section class="section" id="sec-eidiya">
+    <h2 class="section-title">🎁 عيدية خاصة لكِ</h2>
+    <p class="section-subtitle">افتحي كل صندوق واكتشفي ما بداخله</p>
+    <div class="eidiya-grid" id="eidiya-grid"></div>
+    <div class="eidiya-counter" id="eidiya-counter">اضغطي على الصناديق لفتحها</div>
+  </section>
 
-        for (let i = 0; i < 15; i++) {
-            createHeart();
-            setInterval(createHeart, 3000 + i * 200);
-        }
+  <div class="section-divider"><span class="section-divider-emoji">💝</span></div>
 
-        // Screen navigation
-        function showScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.remove('active');
-            });
-            document.getElementById(screenId).classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+  <!-- الرسالة المكتوبة -->
+  <section class="section" id="sec-letter">
+    <h2 class="section-title">✍️ رسالة من قلبي</h2>
+    <p class="section-subtitle">شاهدي الرسالة وهي تُكتب لكِ</p>
+    <div class="letter-card">
+      <div class="letter-text" id="letter-text"></div>
+    </div>
+  </section>
 
-        // Valentine Question Logic
-        const yesBtn = document.getElementById('yesBtn');
-        const noBtn = document.getElementById('noBtn');
-        let noClickCount = 0;
-        let yesBtnSize = 1;
+  <div class="section-divider"><span class="section-divider-emoji">✨</span></div>
 
-        yesBtn.addEventListener('click', () => {
-            // Celebration effect
-            for (let i = 0; i < 30; i++) {
-                setTimeout(() => createCelebrationHeart(), i * 50);
-            }
-            
-            setTimeout(() => {
-                showScreen('screen2');
-            }, 1500);
-        });
+  <!-- الأمنيات -->
+  <section class="section" id="sec-wish">
+    <h2 class="section-title">💫 أمنيات العيد</h2>
+    <p class="section-subtitle">اضغطي واكتشفي أمنية جديدة لكِ</p>
+    <div class="wish-btn-container">
+      <button class="wish-btn" id="wish-btn">🌟 أمنية جديدة</button>
+    </div>
+    <div class="wish-text" id="wish-text">اضغطي على الزر 💫</div>
+  </section>
 
-        noBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            noClickCount++;
-            
-            // Increase Yes button size
-            yesBtnSize += 0.3;
-            yesBtn.style.transform = `translateX(-50%) scale(${yesBtnSize})`;
-            
-            // Move No button randomly
-            const container = document.querySelector('.buttons-container');
-            const maxX = container.offsetWidth - noBtn.offsetWidth;
-            const maxY = container.offsetHeight - noBtn.offsetHeight;
-            
-            const randomX = Math.random() * maxX;
-            const randomY = Math.random() * maxY;
-            
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
-            noBtn.style.transform = 'none';
-            
-            // Change No button text
-            const noTexts = [
-                'Are you sure?',
-                'Really? 🥺',
-                'Please? 💔',
-                'Think again! 😢',
-                'No way! 😭',
-                'Come on! 💕',
-                'Pretty please? 🙏',
-                'Last chance! ❤️'
-            ];
-            
-            if (noClickCount <= noTexts.length) {
-                noBtn.textContent = noTexts[noClickCount - 1];
-            }
-            
-            // After 5 clicks, make No button very hard to click
-            if (noClickCount >= 5) {
-                noBtn.style.transition = 'all 0.1s ease';
-            }
-        });
+  <div class="section-divider"><span class="section-divider-emoji">🐑</span></div>
 
-        // Make No button run away on hover/touch
-        function moveNoButton() {
-            if (noClickCount >= 3) {
-                const container = document.querySelector('.buttons-container');
-                const maxX = container.offsetWidth - noBtn.offsetWidth;
-                const maxY = container.offsetHeight - noBtn.offsetHeight;
-                
-                const randomX = Math.random() * maxX;
-                const randomY = Math.random() * maxY;
-                
-                noBtn.style.left = randomX + 'px';
-                noBtn.style.top = randomY + 'px';
-            }
-        }
+  <!-- الخروف التفاعلي -->
+  <section class="section" id="sec-sheep">
+    <h2 class="section-title">🐑 خروف العيد الكيوت</h2>
+    <p class="section-subtitle">اضغطي على الخروف وقولي له شي حلو</p>
+    <div class="sheep-stage">
+      <svg class="sheep-interactive" id="sheep-interactive" viewBox="0 0 200 200">
+        <g>
+          <circle cx="100" cy="100" r="55" fill="#fff8f0"/>
+          <circle cx="75" cy="80" r="22" fill="#fff8f0"/>
+          <circle cx="125" cy="80" r="22" fill="#fff8f0"/>
+          <circle cx="65" cy="105" r="20" fill="#fff8f0"/>
+          <circle cx="135" cy="105" r="20" fill="#fff8f0"/>
+          <circle cx="80" cy="125" r="18" fill="#fff8f0"/>
+          <circle cx="120" cy="125" r="18" fill="#fff8f0"/>
+          <circle cx="100" cy="75" r="20" fill="#fff8f0"/>
+          <circle cx="100" cy="130" r="20" fill="#fff8f0"/>
+          <circle cx="75" cy="85" r="18" fill="#f4e4c1" opacity="0.4"/>
+          <ellipse cx="100" cy="100" rx="28" ry="32" fill="#3a2a1f"/>
+          <ellipse cx="70" cy="85" rx="8" ry="14" fill="#3a2a1f" transform="rotate(-30 70 85)"/>
+          <ellipse cx="130" cy="85" rx="8" ry="14" fill="#3a2a1f" transform="rotate(30 130 85)"/>
+          <circle cx="90" cy="95" r="4" fill="#fff"/>
+          <circle cx="110" cy="95" r="4" fill="#fff"/>
+          <circle cx="90" cy="96" r="2.5" fill="#000"/>
+          <circle cx="110" cy="96" r="2.5" fill="#000"/>
+          <circle cx="91" cy="94" r="1" fill="#fff"/>
+          <circle cx="111" cy="94" r="1" fill="#fff"/>
+          <ellipse cx="100" cy="110" rx="4" ry="3" fill="#5a3a2a"/>
+          <circle cx="82" cy="105" r="3" fill="#ff9ec7" opacity="0.7"/>
+          <circle cx="118" cy="105" r="3" fill="#ff9ec7" opacity="0.7"/>
+          <path d="M 94 115 Q 100 120 106 115" stroke="#5a3a2a" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <rect x="80" y="145" width="8" height="20" rx="4" fill="#3a2a1f"/>
+          <rect x="112" y="145" width="8" height="20" rx="4" fill="#3a2a1f"/>
+        </g>
+        <circle cx="100" cy="70" r="8" fill="#c44569"/>
+      </svg>
+      <div class="sheep-message" id="sheep-message">اضغطي على الخروف 💕</div>
+      <div class="sheep-counter" id="sheep-counter">عدد الضغطات: 0</div>
+    </div>
+  </section>
 
-        noBtn.addEventListener('mouseenter', moveNoButton);
-        noBtn.addEventListener('touchstart', (e) => {
-            if (noClickCount >= 3) {
-                e.preventDefault();
-                moveNoButton();
-            }
-        });
+  <div class="section-divider"><span class="section-divider-emoji">💚</span></div>
 
-        function createCelebrationHeart() {
-            const heart = document.createElement('div');
-            heart.innerHTML = '💕';
-            heart.style.position = 'fixed';
-            heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
-            heart.style.left = Math.random() * 100 + '%';
-            heart.style.top = '50%';
-            heart.style.zIndex = '10000';
-            heart.style.pointerEvents = 'none';
-            heart.style.animation = 'celebration 2s ease-out forwards';
-            document.body.appendChild(heart);
+  <!-- الرسالة الختامية -->
+  <section class="section" id="sec-final">
+    <div class="final-message">
+      <h2 class="final-title">كل عام وأنتِ عيدي 💝</h2>
+      <p class="final-text">
+        يا دلال،<br><br>
+        في كل عيد أتذكر إنكِ<br>
+        أجمل هدية وصلتني في هالحياة.<br><br>
+        عيد الأضحى يجي ويروح،<br>
+        لكن حبكِ يبقى ويكبر كل يوم.<br><br>
+        كل عام وأنتِ بخير،<br>
+        كل عام وأنتِ ضحكتي الأولى،<br>
+        كل عام وأنتِ أقرب لقلبي.<br><br>
+        عيد مبارك يا حبيبتي 🌸
+      </p>
+      <div class="final-signature">— من يحبكِ دائماً 💝</div>
+    </div>
+  </section>
 
-            setTimeout(() => heart.remove(), 2000);
-        }
+  <div class="footer">
+    عيد أضحى مبارك 🐑<br>
+    كل عام وأنتِ بخير يا دلال
+  </div>
+</div>
 
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes celebration {
-                0% {
-                    transform: translateY(0) rotate(0deg);
-                    opacity: 1;
-                }
-                100% {
-                    transform: translateY(-300px) rotate(360deg);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
+<script>
+// ===== بيانات صناديق العيدية =====
+const eidiyaData = [
+  {front:'🎁', back:'💖', text:'أنتِ أجمل هدية في حياتي'},
+  {front:'💝', back:'🌟', text:'كل عيد وأنتِ ضحكتي'},
+  {front:'🎊', back:'💫', text:'عيدك مبارك يا غالية'},
+  {front:'🎁', back:'🌸', text:'أحبك أكثر كل يوم'},
+  {front:'💝', back:'💕', text:'أنتِ العيد الحقيقي'},
+  {front:'🎊', back:'✨', text:'كل عام وأنتِ حبيبتي'}
+];
 
-        // Riddle 1 Logic
-        const riddle1Input = document.getElementById('riddle1Input');
-        const riddle1Submit = document.getElementById('riddle1Submit');
-        const riddle1Error = document.getElementById('riddle1Error');
-        const hint1Btn = document.getElementById('hint1Btn');
-        const hint1Text = document.getElementById('hint1Text');
+// ===== بيانات الأمنيات =====
+const wishes = [
+  "أتمنى لكِ سنة مليانة ضحكات وأيام حلوة 💫",
+  "أتمنى نكون مع بعض في كل عيد 💝",
+  "أتمنى تحققين كل أحلامك هالسنة 🌟",
+  "أتمنى الفرحة ما تفارق عيونك 🌸",
+  "أتمنى كل أيامك تكون عيد ✨",
+  "أتمنى أكون سبب ضحكتك دائماً 💖",
+  "أتمنى الحياة تكون حلوة معك مثل ما أنتِ حلوة 🌹",
+  "أتمنى السفر والقرب واللقاء قريب 💕",
+  "أتمنى كل أمنية في قلبك تتحقق 🌠",
+  "أتمنى أكون لكِ السند والفرح دائماً 💝"
+];
 
-        hint1Btn.addEventListener('click', () => {
-            hint1Text.style.display = 'block';
-            hint1Btn.style.display = 'none';
-        });
+// ===== رسائل الخروف الكيوت =====
+const sheepMessages = [
+  "مäää! عيد مبارك يا دلال! 🐑💕",
+  "أنا الخروف الكيوت جيت أبارك لك! 🎉",
+  "مبروك العيد! أحبج مثل ما أسامة يحبج! 💝",
+  "mää mää! كل عام وأنتِ عيدي! 🌟",
+  "عيد سعيد يا أحلى دلال! 🐑✨",
+  "الخروف يبارك لك ويقول: أسامة يحبج وااايد! 💖",
+  "määä! كل عيد وأنتِ فرحة أسامة! 🌸",
+  "مبروك! أسامة يقول إنج أجمل شي صار له! 💕",
+  "mää mää! كل عام وأنتِ نور حياته! 🌙",
+  "الخروف يقول: أنتِ العيد الحقيقي! 🐑💝"
+];
 
-        riddle1Submit.addEventListener('click', () => {
-            const answer = riddle1Input.value.trim();
-            // Morning: 3, Afternoon: 5, Evening: 5×2=10
-            // Total: 3 + 5 + 10 = 18
-            const correctAnswers = ['18'];
-            
-            if (correctAnswers.includes(answer)) {
-                riddle1Error.style.color = 'green';
-                riddle1Error.textContent = '✓ Correct! 18 messages of love 💕';
-                riddle1Submit.disabled = true;
-                
-                setTimeout(() => {
-                    showScreen('screen3');
-                }, 1500);
-            } else if (answer === '') {
-                riddle1Error.style.color = 'var(--burgundy)';
-                riddle1Error.textContent = 'Please enter an answer';
-            } else {
-                riddle1Error.style.color = 'var(--burgundy)';
-                riddle1Error.textContent = 'Not quite right... Try again! 💪';
-            }
-        });
+// ===== نص الرسالة =====
+const letterText = "يا دلال، في هذا العيد المبارك أبيك تعرفين شي واحد... أنتِ مو بس حبيبتي، أنتِ عيدي الحقيقي اللي أنتظره كل سنة. كل عيد يجي وأنتِ معي هو عيد حقيقي، وكل عيد وأنتِ بعيدة عني أحس إن العيد ناقص. أسأل الله يجمعنا قريب، ويخليني جنبك في كل عيد وكل يوم وكل لحظة. عيدك مبارك يا أغلى الناس 💝";
 
-        riddle1Input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                riddle1Submit.click();
-            }
-        });
+// ===== متغيرات =====
+const $ = id => document.getElementById(id);
+let wishIdx = -1;
+let sheepClicks = 0;
+let sheepMsgIdx = -1;
+let letterDone = false;
 
-        // Riddle 2 Logic (Birthday)
-        const riddle2Input = document.getElementById('riddle2Input');
-        const riddle2Submit = document.getElementById('riddle2Submit');
-        const riddle2Error = document.getElementById('riddle2Error');
-        const hint2Btn = document.getElementById('hint2Btn');
-        const hint2Text = document.getElementById('hint2Text');
+// ===== إنشاء النجوم =====
+function createStars(){
+  const container = $('stars-bg');
+  for(let i = 0; i < 80; i++){
+    const star = document.createElement('div');
+    star.className = 'star-dot';
+    star.style.left = Math.random()*100+'%';
+    star.style.top = Math.random()*100+'%';
+    star.style.animationDelay = Math.random()*3+'s';
+    star.style.animationDuration = (2 + Math.random()*2)+'s';
+    container.appendChild(star);
+  }
+}
+createStars();
 
-        hint2Btn.addEventListener('click', () => {
-            hint2Text.style.display = 'block';
-            hint2Btn.style.display = 'none';
-        });
+// ===== شاشة الدخول =====
+$('welcome-btn').addEventListener('click', () => {
+  $('welcome-screen').classList.add('hidden');
+  setTimeout(() => {
+    $('welcome-screen').style.display = 'none';
+    $('main-content').style.display = 'block';
+    initMainExperience();
+  }, 1000);
+});
 
-        riddle2Submit.addEventListener('click', () => {
-            const answer = riddle2Input.value.trim();
-            // 4 weeks × 7 days = 28 days
-            const correctAnswers = ['28'];
-            
-            if (correctAnswers.includes(answer)) {
-                riddle2Error.style.color = 'green';
-                riddle2Error.textContent = '✓ Perfect! 28 wonderful days 💕';
-                riddle2Submit.disabled = true;
-                
-                for (let i = 0; i < 40; i++) {
-                    setTimeout(() => createCelebrationHeart(), i * 50);
-                }
-                
-                setTimeout(() => {
-                    showScreen('screen3-5');
-                }, 2000);
-            } else if (answer === '') {
-                riddle2Error.style.color = 'var(--burgundy)';
-                riddle2Error.textContent = 'Please enter your answer';
-            } else {
-                riddle2Error.style.color = 'var(--burgundy)';
-                riddle2Error.textContent = 'Not quite... Think about how many days in a week! 📅';
-            }
-        });
+function initMainExperience(){
+  initEidiya();
+  initWishes();
+  initSheep();
+  initFireworks();
+  
+  setTimeout(() => {
+    launchFireworksBurst(3);
+    createConfetti(80);
+    showFloatingMsg('🐑 عيد أضحى مبارك يا دلال 🐑');
+  }, 500);
+  
+  setTimeout(setupScrollObserver, 300);
+  setTimeout(() => {
+    $('hero').classList.add('visible');
+    setTimeout(startLetter, 1500);
+  }, 800);
+}
 
-        riddle2Input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                riddle2Submit.click();
-            }
-        });
+// ===== صناديق العيدية =====
+function initEidiya(){
+  const grid = $('eidiya-grid');
+  const counter = $('eidiya-counter');
+  let opened = 0;
+  
+  eidiyaData.forEach((item, i) => {
+    const box = document.createElement('div');
+    box.className = 'eidiya-box';
+    box.innerHTML = `
+      <div class="eidiya-inner">
+        <div class="eidiya-front">
+          <div class="eidiya-front-emoji">${item.front}</div>
+          <div class="eidiya-front-text">افتحيني</div>
+        </div>
+        <div class="eidiya-back">
+          <div class="eidiya-back-emoji">${item.back}</div>
+          <div class="eidiya-back-text">${item.text}</div>
+        </div>
+      </div>
+    `;
+    box.addEventListener('click', () => {
+      if(box.classList.contains('opened')) return;
+      box.classList.add('opened');
+      playPop();
+      createFlyingHeart(box);
+      opened++;
+      counter.textContent = `فتحتِ ${opened} من ${eidiyaData.length} صناديق`;
+      if(opened === eidiyaData.length){
+        counter.textContent = '🎉 فتحتِ كل الصناديق! 💝';
+        launchFireworksBurst(3);
+        createConfetti(100);
+        showFloatingMsg('💝 كل عام وأنتِ حبيبتي 💝');
+      }
+    });
+    grid.appendChild(box);
+  });
+}
 
-        // Riddle 3 Logic (Love calculation)
-        const riddle3Input = document.getElementById('riddle3Input');
-        const riddle3Submit = document.getElementById('riddle3Submit');
-        const riddle3Error = document.getElementById('riddle3Error');
-        const hint3Btn = document.getElementById('hint3Btn');
-        const hint3Text = document.getElementById('hint3Text');
+function createFlyingHeart(element){
+  const rect = element.getBoundingClientRect();
+  const heart = document.createElement('div');
+  heart.className = 'flying-heart';
+  const emojis = ['💖','💕','💝','✨','🌟'];
+  heart.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+  heart.style.left = (rect.left + rect.width/2 - 15) + 'px';
+  heart.style.top = (rect.top + rect.height/2) + 'px';
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 2000);
+}
 
-        hint3Btn.addEventListener('click', () => {
-            hint3Text.style.display = 'block';
-            hint3Btn.style.display = 'none';
-        });
+// ===== الرسالة =====
+function startLetter(){
+  if(letterDone) return;
+  letterDone = true;
+  const el = $('letter-text');
+  const cursor = document.createElement('span');
+  cursor.className = 'letter-cursor';
+  el.appendChild(cursor);
+  
+  let i = 0;
+  function type(){
+    if(i < letterText.length){
+      el.insertBefore(document.createTextNode(letterText.charAt(i)), cursor);
+      i++;
+      setTimeout(type, 35);
+    } else {
+      setTimeout(() => cursor.remove(), 1500);
+    }
+  }
+  type();
+}
 
-        riddle3Submit.addEventListener('click', () => {
-            const answer = riddle3Input.value.trim();
-            // 2❤️ = 2×3 = 6
-            // 3💕 = 3×5 = 15
-            // 1🌹 = 1×2 = 2
-            // Total = 6 + 15 + 2 = 23
-            const correctAnswers = ['23'];
-            
-            if (correctAnswers.includes(answer)) {
-                riddle3Error.style.color = 'green';
-                riddle3Error.textContent = '✓ Amazing! 23 points of love 💕';
-                riddle3Submit.disabled = true;
-                
-                for (let i = 0; i < 50; i++) {
-                    setTimeout(() => createCelebrationHeart(), i * 40);
-                }
-                
-                setTimeout(() => {
-                    showScreen('screen4');
-                }, 2000);
-            } else if (answer === '') {
-                riddle3Error.style.color = 'var(--burgundy)';
-                riddle3Error.textContent = 'Please enter an answer';
-            } else {
-                riddle3Error.style.color = 'var(--burgundy)';
-                riddle3Error.textContent = 'Not quite right... Try again! 💪';
-            }
-        });
+// ===== الأمنيات =====
+function initWishes(){
+  const btn = $('wish-btn');
+  const text = $('wish-text');
+  
+  btn.addEventListener('click', () => {
+    let idx;
+    do { idx = Math.floor(Math.random()*wishes.length); }
+    while(idx === wishIdx && wishes.length > 1);
+    wishIdx = idx;
+    
+    text.classList.remove('show');
+    setTimeout(() => {
+      text.textContent = wishes[idx];
+      text.classList.add('show');
+      playPop();
+      launchFireworksBurst(1);
+    }, 200);
+  });
+  
+  setTimeout(() => text.classList.add('show'), 500);
+}
 
-        riddle3Input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                riddle3Submit.click();
-            }
-        });
+// ===== الخروف التفاعلي =====
+function initSheep(){
+  const sheep = $('sheep-interactive');
+  const message = $('sheep-message');
+  const counter = $('sheep-counter');
+  
+  sheep.addEventListener('click', (e) => {
+    sheepClicks++;
+    counter.textContent = `عدد الضغطات: ${sheepClicks}`;
+    
+    let idx;
+    do { idx = Math.floor(Math.random()*sheepMessages.length); }
+    while(idx === sheepMsgIdx && sheepMessages.length > 1);
+    sheepMsgIdx = idx;
+    
+    message.classList.remove('show');
+    setTimeout(() => {
+      message.textContent = sheepMessages[idx];
+      message.classList.add('show');
+    }, 200);
+    
+    playPop();
+    
+    // قلوب تطلع من الخروف
+    const rect = sheep.getBoundingClientRect();
+    for(let i = 0; i < 3; i++){
+      setTimeout(() => {
+        const heart = document.createElement('div');
+        heart.className = 'flying-heart';
+        const emojis = ['💖','💕','💝','🐑','✨'];
+        heart.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        heart.style.left = (rect.left + rect.width/2 + (Math.random()-0.5)*60) + 'px';
+        heart.style.top = (rect.top + rect.height/2) + 'px';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 2000);
+      }, i * 100);
+    }
+    
+    // مكافآت
+    if(sheepClicks === 10){
+      showFloatingMsg('🐑 10 ضغطات! الخروف يحبج!');
+      launchFireworksBurst(1);
+    }
+    if(sheepClicks === 25){
+      showFloatingMsg('🐑 25! الخروف يبي يطيح من الفرح!');
+      launchFireworksBurst(2);
+      createConfetti(50);
+    }
+    if(sheepClicks === 50){
+      showFloatingMsg('🐑 50! الخروف مات من الحب! 💝');
+      launchFireworksBurst(3);
+      createConfetti(100);
+    }
+  });
+  
+  setTimeout(() => message.classList.add('show'), 500);
+}
 
-        // Show final letter
-        document.getElementById('showLetterBtn').addEventListener('click', () => {
-            showScreen('screen5');
-            
-            // Final celebration
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => createCelebrationHeart(), i * 40);
-            }
+// ===== مراقب التمرير =====
+function setupScrollObserver(){
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, {threshold:0.15});
+  document.querySelectorAll('.section').forEach(s => obs.observe(s));
+}
 
-            // Initialize I Love You animation
-            setTimeout(() => {
-                initLoveAnimation();
-            }, 1000);
-        });
+// ===== الألعاب النارية =====
+let fwCanvas, fwCtx;
+let fireworkParticles = [];
+let activeRockets = [];
 
-        // ILY Animation - Heart Shape
-        function initLoveAnimation() {
-            const heartContainer = document.getElementById('heartContainer');
-            const numberOfWords = 20; // Number of "ILY" words moving in heart shape
-            const duration = 8; // seconds for one complete loop
+function initFireworks(){
+  fwCanvas = $('fireworks-canvas');
+  fwCtx = fwCanvas.getContext('2d');
+  resizeFw();
+  drawFireworks();
+}
 
-            for (let i = 0; i < numberOfWords; i++) {
-                const ilyWord = document.createElement('div');
-                ilyWord.className = 'ily-word';
-                ilyWord.textContent = 'ILY';
-                
-                // Set custom properties for animation
-                ilyWord.style.setProperty('--duration', duration + 's');
-                ilyWord.style.setProperty('--delay', (i * duration / numberOfWords) + 's');
-                
-                heartContainer.appendChild(ilyWord);
-            }
-        }
+function resizeFw(){
+  if(!fwCanvas) return;
+  fwCanvas.width = innerWidth;
+  fwCanvas.height = innerHeight;
+}
+window.addEventListener('resize', resizeFw);
 
-        // Teddy Bear Interaction
-        let teddyClicked = false;
-        function showTeddyLove() {
-            const teddy = document.getElementById('teddyBear');
-            const message = document.getElementById('teddyMessage');
-            const container = document.querySelector('.teddy-container');
-            
-            // Show message
-            message.classList.add('show');
-            
-            // Create floating hearts from teddy
-            if (!teddyClicked) {
-                teddyClicked = true;
-                for (let i = 0; i < 15; i++) {
-                    setTimeout(() => {
-                        const heart = document.createElement('div');
-                        heart.className = 'teddy-heart';
-                        heart.textContent = ['❤️', '💕', '💖', '💗', '💝'][Math.floor(Math.random() * 5)];
-                        heart.style.left = (teddy.offsetLeft + 75) + 'px';
-                        heart.style.top = (teddy.offsetTop + 75) + 'px';
-                        heart.style.transform = `translateX(${(Math.random() - 0.5) * 100}px)`;
-                        container.appendChild(heart);
-                        
-                        setTimeout(() => heart.remove(), 3000);
-                    }, i * 150);
-                }
-                
-                setTimeout(() => {
-                    teddyClicked = false;
-                }, 3000);
-            }
-        }
-    </script>
+class FireworkRocket{
+  constructor(){
+    this.x = Math.random() * innerWidth;
+    this.targetY = innerHeight * 0.2 + Math.random() * innerHeight * 0.3;
+    this.y = innerHeight;
+    this.speed = 6;
+    this.color = ['#f4d03f','#c44569','#ff9ec7','#fff','#d4af37','#ff6b9d'][Math.floor(Math.random()*6)];
+    this.exploded = false;
+    this.trail = [];
+  }
+  update(){
+    this.trail.push({x:this.x,y:this.y});
+    if(this.trail.length > 8) this.trail.shift();
+    this.y -= this.speed;
+    if(this.y <= this.targetY && !this.exploded){
+      this.exploded = true;
+      this.explode();
+      return true;
+    }
+    return false;
+  }
+  draw(){
+    if(this.exploded) return;
+    this.trail.forEach((t,i) => {
+      const alpha = (i/this.trail.length)*0.5;
+      fwCtx.save();
+      fwCtx.globalAlpha = alpha;
+      fwCtx.fillStyle = this.color;
+      fwCtx.beginPath();
+      fwCtx.arc(t.x,t.y,1.5,0,Math.PI*2);
+      fwCtx.fill();
+      fwCtx.restore();
+    });
+    fwCtx.save();
+    fwCtx.fillStyle = this.color;
+    fwCtx.shadowBlur = 15;
+    fwCtx.shadowColor = this.color;
+    fwCtx.beginPath();
+    fwCtx.arc(this.x,this.y,2.5,0,Math.PI*2);
+    fwCtx.fill();
+    fwCtx.restore();
+  }
+  explode(){
+    const count = 60 + Math.floor(Math.random()*20);
+    for(let i=0;i<count;i++){
+      const angle = (Math.PI*2/count)*i;
+      const speed = Math.random()*3+2;
+      fireworkParticles.push({
+        x:this.x,y:this.y,
+        vx:Math.cos(angle)*speed,
+        vy:Math.sin(angle)*speed,
+        color:this.color,life:1,
+        decay:Math.random()*0.015+0.01,
+        size:Math.random()*2+1,
+        trail:[]
+      });
+    }
+  }
+}
+
+function launchFirework(){
+  if(!fwCanvas) return;
+  activeRockets.push(new FireworkRocket());
+}
+
+function launchFireworksBurst(count=3){
+  for(let i=0;i<count;i++){
+    setTimeout(()=>launchFirework(),i*200);
+  }
+}
+
+function drawFireworks(){
+  if(!fwCtx) return;
+  fwCtx.clearRect(0,0,fwCanvas.width,fwCanvas.height);
+  activeRockets = activeRockets.filter(r=>{
+    const done = r.update();
+    r.draw();
+    return !done;
+  });
+  fireworkParticles = fireworkParticles.filter(p=>{
+    p.trail.push({x:p.x,y:p.y,life:p.life});
+    if(p.trail.length > 5) p.trail.shift();
+    p.x += p.vx; p.y += p.vy;
+    p.vy += 0.05; p.vx *= 0.99;
+    p.life -= p.decay;
+    if(p.life <= 0) return false;
+    p.trail.forEach((t,i) => {
+      const a = (i/p.trail.length)*p.life*0.5;
+      fwCtx.save();
+      fwCtx.globalAlpha = a;
+      fwCtx.fillStyle = p.color;
+      fwCtx.beginPath();
+      fwCtx.arc(t.x,t.y,p.size*0.7,0,Math.PI*2);
+      fwCtx.fill();
+      fwCtx.restore();
+    });
+    fwCtx.save();
+    fwCtx.globalAlpha = p.life;
+    fwCtx.fillStyle = p.color;
+    fwCtx.shadowBlur = 12;
+    fwCtx.shadowColor = p.color;
+    fwCtx.beginPath();
+    fwCtx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    fwCtx.fill();
+    fwCtx.restore();
+    return true;
+  });
+  requestAnimationFrame(drawFireworks);
+}
+
+// ===== الكونفيتي =====
+function createConfetti(count=60){
+  const colors = ['#f4d03f','#c44569','#ff9ec7','#fff','#d4af37','#ff6b9d'];
+  for(let i=0;i<count;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100+'%';
+    c.style.top = '-20px';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDuration = (Math.random()*2+2)+'s';
+    c.style.animationDelay = Math.random()+'s';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),4000);
+  }
+}
+
+// ===== رسالة عائمة =====
+function showFloatingMsg(t){
+  const m = document.createElement('div');
+  m.className = 'floating-msg';
+  m.textContent = t;
+  document.body.appendChild(m);
+  setTimeout(()=>m.remove(),3000);
+}
+
+// ===== صوت بسيط =====
+let audioCtx;
+function playPop(){
+  try{
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    const now = audioCtx.currentTime;
+    const bufSize = audioCtx.sampleRate * 0.1;
+    const buf = audioCtx.createBuffer(1,bufSize,audioCtx.sampleRate);
+    const data = buf.getChannelData(0);
+    for(let i=0;i<bufSize;i++){
+      data[i] = (Math.random()*2-1) * Math.pow(1-i/bufSize,4);
+    }
+    const src = audioCtx.createBufferSource();
+    src.buffer = buf;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'highpass';
+    filter.frequency.value = 800;
+    const gain = audioCtx.createGain();
+    gain.gain.value = 0.2;
+    src.connect(filter);
+    filter.connect(gain);
+    gain.connect(audioCtx.destination);
+    src.start(now);
+  }catch(e){}
+}
+</script>
 </body>
 </html>
